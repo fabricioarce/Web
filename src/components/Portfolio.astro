@@ -1,0 +1,91 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { achievements, content, skills, type Locale } from '../i18n/content';
+
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+const t = content[lang];
+const otherLang = lang === 'es' ? 'en' : 'es';
+const socials = [
+  ['GitHub', 'https://github.com/fabricioarce'],
+  ['Codeforces', 'https://codeforces.com/profile/Fabricpp'],
+  ['AtCoder', 'https://atcoder.jp/users/FabricioAR'],
+  ['LinkedIn', 'https://www.linkedin.com/in/fabricio-arce-582511411'],
+];
+---
+<BaseLayout lang={lang} title={t.meta.title} description={t.meta.description}>
+  <header class="site-header">
+    <a class="brand" href={`/${lang}/`} aria-label="Fabricio Arce — Home"><span>FA</span><b>fabricio.arce</b></a>
+    <nav aria-label="Main navigation">
+      <a href="#about">{t.nav.about}</a><a href="#skills">{t.nav.skills}</a><a href="#projects">{t.nav.projects}</a><a href="#achievements">{t.nav.achievements}</a><a href="#contact">{t.nav.contact}</a>
+    </nav>
+    <div class="header-actions"><a class="lang" href={`/${otherLang}/`} lang={otherLang}>{otherLang.toUpperCase()}</a><button id="theme-toggle" aria-label="Toggle color theme"><span aria-hidden="true">◐</span></button></div>
+  </header>
+
+  <main id="main">
+    <section class="hero section-grid" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="pulse"></span>{t.hero.eyebrow}</p>
+        <h1 id="hero-title">Fabricio<br /><span>Arce.</span></h1>
+        <p class="role">{t.hero.role}</p><p class="lead">{t.hero.intro}</p>
+        <div class="hero-actions"><a class="button primary" href="#projects">{t.hero.cta} <span>↘</span></a><a class="button ghost" href="#contact">{t.nav.contact}</a></div>
+        <div class="socials">{socials.map(([name, url]) => <a href={url} target="_blank" rel="noreferrer">{name}<span aria-hidden="true">↗</span></a>)}</div>
+      </div>
+      <div class="code-window" aria-label="Profile represented as code">
+        <div class="window-bar"><span></span><span></span><span></span><b>fabricio.cpp</b></div>
+        <pre><code><i>01</i> <em>#include</em> &lt;curiosity&gt;
+<i>02</i> <em>#include</em> &lt;discipline&gt;
+<i>03</i>
+<i>04</i> <strong>struct</strong> <mark>Student</mark> &lbrace;
+<i>05</i>   string country = <q>"Costa Rica"</q>;
+<i>06</i>   vector&lt;string&gt; interests = &lbrace;
+<i>07</i>     <q>"competitive programming"</q>,
+<i>08</i>     <q>"physics"</q>,
+<i>09</i>     <q>"scientific research"</q>
+<i>10</i>   &rbrace;;
+<i>11</i>
+<i>12</i>   <strong>void</strong> solve(Problem p) &lbrace;
+<i>13</i>     <strong>while</strong> (!p.accepted()) learn();
+<i>14</i>   &rbrace;
+<i>15</i> &rbrace;;</code></pre>
+        <div class="compiler"><span>✓</span><b>Build succeeded</b><small>{t.hero.status}</small></div>
+      </div>
+    </section>
+
+    <section id="about" class="section section-grid">
+      <div><p class="section-label">// {t.about.label}</p><h2>{t.about.title}</h2></div>
+      <article class="problem-card"><div class="problem-head"><span>A</span><div><b>{t.about.statement}</b><small>time limit: life · memory limit: curiosity</small></div><strong>ACCEPTED</strong></div><div class="problem-body"><p>{t.about.p1}</p><p>{t.about.p2}</p><p>{t.about.p3}</p><div class="io"><div><small>INPUT</small><code>{t.about.input}</code></div><span>→</span><div><small>OUTPUT</small><code>{t.about.output}</code></div></div><div class="facts"><span>⌖ {t.about.location}</span><span>⌁ {t.about.education}</span></div></div></article>
+    </section>
+
+    <section id="skills" class="section"><p class="section-label">// {t.skills.label}</p><div class="section-heading"><h2>{t.skills.title}</h2><p>{t.skills.subtitle}</p></div><div class="skill-grid">{skills.map((skill, i) => <article class="skill-card"><span>0{i + 1}</span><code>{skill.complexity}</code><h3>{skill.name}</h3><small>{skill.level}</small></article>)}</div></section>
+
+    <section id="projects" class="section"><p class="section-label">// {t.projects.label}</p><div class="section-heading"><h2>{t.projects.title}</h2><p>{t.projects.subtitle}</p></div><article class="project-card"><div class="project-index">001</div><div class="project-main"><div class="tags"><span>{t.projects.research}</span><span>{t.projects.ongoing}</span></div><h3>Bioestimulant delivery platform</h3><p>{lang === 'es' ? 'Investigación de una plataforma agrícola basada en micropartículas de sílice, quitosano y aminoácidos de cadena corta, evaluada en lechuga como alternativa sostenible.' : 'Research into an agricultural platform based on silica, chitosan and short-chain amino-acid microparticles, evaluated in lettuce as a sustainable alternative.'}</p><div class="project-meta"><code>silica</code><code>chitosan</code><code>Lactuca sativa</code></div></div><div class="accepted">AC<span>research.log</span></div></article>
+    </section>
+
+    <section id="achievements" class="section"><p class="section-label">// {t.achievements.label}</p><div class="section-heading"><h2>{t.achievements.title}</h2></div><div class="table" role="table"><div class="table-row table-head" role="row"><span>{t.achievements.event}</span><span>{t.achievements.result}</span><span>{t.achievements.scope}</span></div>{achievements.map((item, i) => <div class="table-row" role="row"><span><b>#{String(i + 1).padStart(2, '0')}</b>{item.event}</span><span>{item.result}</span><span>{item.scope}</span></div>)}</div></section>
+
+    <section class="section terminal-section"><div><p class="section-label">// {t.terminal.label}</p><h2>{t.terminal.title}</h2><p>{t.terminal.help}</p></div><div class="terminal" data-lang={lang}><div class="window-bar"><span></span><span></span><span></span><b>guest@fabricio:~</b></div><div id="terminal-output" aria-live="polite"><p><span>portfolio v1.0.0</span> — {t.terminal.help}</p></div><form id="terminal-form"><label for="terminal-input">visitor@portfolio:~$</label><input id="terminal-input" autocomplete="off" spellcheck="false" placeholder={t.terminal.placeholder} /></form></div></section>
+
+    <section id="contact" class="section contact"><div><p class="section-label">// {t.contact.label}</p><h2>{t.contact.title}</h2><p>{t.contact.intro}</p><a href="https://www.linkedin.com/in/fabricio-arce-582511411" target="_blank" rel="noreferrer">LinkedIn ↗</a></div><form id="contact-form"><label>{t.contact.name}<input name="name" required minlength="2" /></label><label>{t.contact.email}<input type="email" name="email" required /></label><label>{t.contact.subject}<input name="subject" required /></label><label>{t.contact.message}<textarea name="message" rows="5" required minlength="10"></textarea></label><input class="honeypot" name="website" tabindex="-1" autocomplete="off" /><button class="button primary" type="submit">{t.contact.send} ↗</button><p id="form-status" role="status"></p></form></section>
+  </main>
+  <footer><span>© {new Date().getFullYear()} Fabricio Arce</span><span>{t.footer}</span><a href="#main">↑ Top</a></footer>
+  <script is:inline define:vars={{ contactUnavailable: t.contact.unavailable }}>
+    const root = document.documentElement;
+    document.querySelector('#theme-toggle')?.addEventListener('click', () => { const next = root.dataset.theme === 'dark' ? 'light' : 'dark'; root.dataset.theme = next; localStorage.setItem('theme', next); });
+    const sections = { about: '#about', projects: '#projects', achievements: '#achievements', contact: '#contact' };
+    const output = document.querySelector('#terminal-output');
+    document.querySelector('#terminal-form')?.addEventListener('submit', (event) => {
+      event.preventDefault(); const input = document.querySelector('#terminal-input'); if (!(input instanceof HTMLInputElement) || !output) return;
+      const command = input.value.trim().toLowerCase(); const line = document.createElement('p'); line.textContent = `visitor@portfolio:~$ ${command}`; output.append(line);
+      const response = document.createElement('p');
+      if (command === 'help') response.textContent = 'help · about · projects · achievements · contact · socials · theme · clear';
+      else if (command === 'clear') output.replaceChildren();
+      else if (command === 'theme') { document.querySelector('#theme-toggle')?.dispatchEvent(new Event('click')); response.textContent = 'Theme toggled.'; }
+      else if (command === 'socials') response.textContent = 'github.com/fabricioarce · codeforces.com/profile/Fabricpp · atcoder.jp/users/FabricioAR';
+      else if (command in sections) { document.querySelector(sections[command])?.scrollIntoView({ behavior: 'smooth' }); response.textContent = `Opening ${command}...`; }
+      else if (command) response.textContent = `Command not found: ${command}. Type “help”.`;
+      if (response.textContent) output.append(response); input.value = ''; output.scrollTop = output.scrollHeight;
+    });
+    document.querySelector('#contact-form')?.addEventListener('submit', (event) => { event.preventDefault(); const status = document.querySelector('#form-status'); if (status) status.textContent = contactUnavailable; });
+  </script>
+</BaseLayout>

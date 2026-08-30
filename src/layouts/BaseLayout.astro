@@ -1,0 +1,29 @@
+---
+import '../styles/global.css';
+import type { Locale } from '../i18n/content';
+
+interface Props { lang: Locale; title: string; description: string }
+const { lang, title, description } = Astro.props;
+const otherLang = lang === 'es' ? 'en' : 'es';
+const canonical = new URL(`/${lang}/`, Astro.site ?? Astro.url);
+---
+<!doctype html>
+<html lang={lang} data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0a0f0d" />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang={otherLang} href={`/${otherLang}/`} />
+    <link rel="alternate" hreflang="x-default" href="/en/" />
+    <title>{title}</title>
+    <script is:inline>
+      document.documentElement.dataset.theme = localStorage.getItem('theme') ?? (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <slot />
+  </body>
+</html>
